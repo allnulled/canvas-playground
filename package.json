@@ -1,0 +1,16 @@
+{
+  "name": "free-canvas-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/http-server -c-1 src/www",
+    "test:nodep": "npx http-server -c-1 src/www"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
