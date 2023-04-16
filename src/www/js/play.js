@@ -1,4 +1,12 @@
 function draw() {
+  const utils = {
+    toRadians: function (angle) {
+      return angle * (Math.PI / 180);
+    },
+    toDegrees: function (angle) {
+      return angle * (180 / Math.PI);
+    }
+  };
   const SETTINGS = {
     width: 500,
     height: 500,
@@ -29,8 +37,8 @@ function draw() {
       Pintar_cesped: {
         const altura_de_cesped = 500 - 40;
         ctx.beginPath();
-        ctx.moveTo(0, altura_de_cesped-1);
-        ctx.lineTo(SETTINGS.width, altura_de_cesped-1);
+        ctx.moveTo(0, altura_de_cesped - 1);
+        ctx.lineTo(SETTINGS.width, altura_de_cesped - 1);
         ctx.strokeStyle = SETTINGS.color_de_palos;
         ctx.stroke();
         ctx.beginPath();
@@ -202,11 +210,31 @@ function draw() {
       Proceso_pintar_pierna_izq: {
         const pierna_izq_origen_x = punto_de_la_rodilla_izq[0];
         const pierna_izq_origen_y = punto_de_la_rodilla_izq[1];
-        const pierna_izq_destino_x = punto_de_la_rodilla_izq[0];
-        const pierna_izq_destino_y = punto_de_la_rodilla_izq[1] + 60;
+        ///////////////////////////////////////////////////////
+        // Lo que sería pierna normal hacia abajo:
+        let pierna_izq_destino_x = punto_de_la_rodilla_izq[0];
+        let pierna_izq_destino_y = punto_de_la_rodilla_izq[1] + 60;
+        ///////////////////////////////////////////////////////
         punto_del_pie_izq = [pierna_izq_destino_x, pierna_izq_destino_y];
+        // Y aquí aplicando el ángulo en radianes:
+        //*
+        console.log(punto_del_pie_izq);
+        punto_del_pie_izq = [
+          Math.sin((2 * Math.PI) * 8 / 12) * 60 + pierna_izq_origen_x,
+          -Math.cos((2 * Math.PI) * 8 / 12) * 60 + pierna_izq_origen_y
+        ];
+        //*/
+        // Y aquí aplicando el ángulo en grados:
+        //*
+        console.log(punto_del_pie_izq);
+        punto_del_pie_izq = [
+          Math.sin(utils.toRadians(-130)) * 60 + pierna_izq_origen_x,
+          -Math.cos(utils.toRadians(-130)) * 60 + pierna_izq_origen_y
+        ];
+        //*/
+        console.log(punto_del_pie_izq);
         ctx.moveTo(pierna_izq_origen_x, pierna_izq_origen_y);
-        ctx.lineTo(pierna_izq_destino_x, pierna_izq_destino_y);
+        ctx.lineTo(punto_del_pie_izq[0], punto_del_pie_izq[1]);
         ctx.stroke();
       }
       Proceso_pintar_pierna_der: {
@@ -259,3 +287,7 @@ function draw() {
 };
 
 window.addEventListener("load", draw);
+
+
+
+
