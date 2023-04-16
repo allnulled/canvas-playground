@@ -1,4 +1,4 @@
-function draw() {
+function play() {
   const utils = {
     toRadians: function (angle) {
       return angle * (Math.PI / 180);
@@ -18,8 +18,8 @@ function draw() {
   const canvas = document.getElementById('canvas_for_demo');
   canvas.width = SETTINGS.width;
   canvas.height = SETTINGS.height;
-  canvas.style.border = "1px solid #333";
-  canvas.style.boxShadow = "0 0 4px black";
+  canvas.style.border = "1px solid #FFF";
+  canvas.style.backgroundColor = "#FFF";
   canvas.style.borderRadius = "2pt";
   if (!canvas.getContext) {
     throw new Error("Canvas element has no context");
@@ -82,6 +82,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_del_hombro_izq += diff;
+                ok();
+                console.log("Movimiento de hombro izquierdo completado: " + this.apertura_del_hombro_izq);
               }, secs);
             });
           },
@@ -89,6 +91,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_del_hombro_der += diff;
+                ok();
+                console.log("Movimiento de hombro derecho completado: " + this.apertura_del_hombro_der);
               }, secs);
             });
           }
@@ -98,6 +102,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_del_codo_izq += diff;
+                ok();
+                console.log("Movimiento de codo izquierdo completado: " + this.apertura_del_codo_izq);
               }, secs);
             });
           },
@@ -105,6 +111,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_del_codo_der += diff;
+                ok();
+                console.log("Movimiento de codo derecho completado: " + this.apertura_del_codo_der);
               }, secs);
             });
           }
@@ -114,6 +122,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_de_la_pierna_izq += diff;
+                ok();
+                console.log("Movimiento de pierna izquierda completado: " + this.apertura_de_la_pierna_izq);
               }, secs);
             });
           },
@@ -121,6 +131,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_de_la_pierna_der += diff;
+                ok();
+                console.log("Movimiento de pierna derecha completado: " + this.apertura_de_la_pierna_der);
               }, secs);
             });
           }
@@ -130,6 +142,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_de_la_rodilla_izq += diff;
+                ok();
+                console.log("Movimiento de rodilla izquierda completado: " + this.apertura_de_la_rodilla_izq);
               }, secs);
             });
           },
@@ -137,6 +151,8 @@ function draw() {
             return new Promise(ok => {
               setTimeout(() => {
                 this.apertura_de_la_rodilla_der += diff;
+                ok();
+                console.log("Movimiento de rodilla derecha completado: " + this.apertura_de_la_rodilla_der);
               }, secs);
             });
           }
@@ -144,6 +160,7 @@ function draw() {
       };
     }
     pintarse(ctx) {
+      console.log("Pintandose personaje!");
       let punto_del_cuello_bajo = undefined;
       let punto_del_hombro_izq = undefined;
       let punto_del_hombro_der = undefined;
@@ -174,6 +191,7 @@ function draw() {
         const cuello_destino_x = this.x;
         const cuello_destino_y = this.y + this.escala + 10;
         punto_del_cuello_bajo = [cuello_destino_x, cuello_destino_y];
+        ctx.beginPath();
         ctx.moveTo(cuello_origen_x, cuello_origen_y);
         ctx.lineTo(cuello_destino_x, cuello_destino_y);
         ctx.stroke();
@@ -185,6 +203,7 @@ function draw() {
         const espalda_destino_y = punto_del_cuello_bajo[1];
         punto_del_hombro_izq = [espalda_origen_x, espalda_origen_y];
         punto_del_hombro_der = [espalda_destino_x, espalda_destino_y];
+        ctx.beginPath();
         ctx.moveTo(espalda_origen_x, espalda_origen_y);
         ctx.lineTo(espalda_destino_x, espalda_destino_y);
         ctx.stroke();
@@ -192,78 +211,62 @@ function draw() {
       Proceso_pintar_antebrazo_izq: {
         const antebrazo_izq_origen_x = punto_del_hombro_izq[0];
         const antebrazo_izq_origen_y = punto_del_hombro_izq[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let antebrazo_izq_destino_x = punto_del_hombro_izq[0];
         let antebrazo_izq_destino_y = punto_del_hombro_izq[1] + this.largo_de_antebrazo;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_del_codo_izq = [antebrazo_izq_destino_x, antebrazo_izq_destino_y];
         punto_del_codo_izq = [
           Math.sin(utils.toRadians(this.apertura_del_hombro_izq)) * this.largo_de_antebrazo + antebrazo_izq_origen_x,
           -Math.cos(utils.toRadians(this.apertura_del_hombro_izq)) * this.largo_de_antebrazo + antebrazo_izq_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(antebrazo_izq_origen_x, antebrazo_izq_origen_y);
         ctx.lineTo(punto_del_codo_izq[0], punto_del_codo_izq[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_antebrazo_der: {
         const antebrazo_der_origen_x = punto_del_hombro_der[0];
         const antebrazo_der_origen_y = punto_del_hombro_der[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let antebrazo_der_destino_x = punto_del_hombro_der[0];
         let antebrazo_der_destino_y = punto_del_hombro_der[1] + this.largo_de_antebrazo;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_del_codo_der = [antebrazo_der_destino_x, antebrazo_der_destino_y];
         punto_del_codo_der = [
           Math.sin(utils.toRadians(this.apertura_del_hombro_der)) * this.largo_de_antebrazo + antebrazo_der_origen_x,
           -Math.cos(utils.toRadians(this.apertura_del_hombro_der)) * this.largo_de_antebrazo + antebrazo_der_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(antebrazo_der_origen_x, antebrazo_der_origen_y);
         ctx.lineTo(punto_del_codo_der[0], punto_del_codo_der[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_brazo_izq: {
         const brazo_izq_origen_x = punto_del_codo_izq[0];
         const brazo_izq_origen_y = punto_del_codo_izq[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let brazo_izq_destino_x = punto_del_hombro_izq[0];
         let brazo_izq_destino_y = punto_del_hombro_izq[1] + this.largo_de_brazo;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_mano_izq = [brazo_izq_destino_x, brazo_izq_destino_y];
         punto_de_la_mano_izq = [
           Math.sin(utils.toRadians(this.apertura_del_codo_izq)) * this.largo_de_brazo + brazo_izq_origen_x,
           -Math.cos(utils.toRadians(this.apertura_del_codo_izq)) * this.largo_de_brazo + brazo_izq_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(brazo_izq_origen_x, brazo_izq_origen_y);
         ctx.lineTo(punto_de_la_mano_izq[0], punto_de_la_mano_izq[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_brazo_der: {
         const brazo_der_origen_x = punto_del_codo_der[0];
         const brazo_der_origen_y = punto_del_codo_der[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let brazo_der_destino_x = punto_del_hombro_der[0];
         let brazo_der_destino_y = punto_del_hombro_der[1] + this.largo_de_brazo;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_mano_der = [brazo_der_destino_x, brazo_der_destino_y];
         punto_de_la_mano_der = [
           Math.sin(utils.toRadians(this.apertura_del_codo_der)) * this.largo_de_brazo + brazo_der_origen_x,
           -Math.cos(utils.toRadians(this.apertura_del_codo_der)) * this.largo_de_brazo + brazo_der_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(brazo_der_origen_x, brazo_der_origen_y);
         ctx.lineTo(punto_de_la_mano_der[0], punto_de_la_mano_der[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_columna: {
         const brazo_der_origen_x = punto_del_cuello_bajo[0];
@@ -271,6 +274,7 @@ function draw() {
         const brazo_der_destino_x = punto_del_cuello_bajo[0];
         const brazo_der_destino_y = punto_del_cuello_bajo[1] + this.largo_de_columna;
         punto_del_coxis = [brazo_der_destino_x, brazo_der_destino_y];
+        ctx.beginPath();
         ctx.moveTo(brazo_der_origen_x, brazo_der_origen_y);
         ctx.lineTo(brazo_der_destino_x, brazo_der_destino_y);
         ctx.stroke();
@@ -282,6 +286,7 @@ function draw() {
         const cadera_destino_y = punto_del_coxis[1];
         punto_de_la_antepierna_izq = [cadera_origen_x, cadera_origen_y];
         punto_de_la_antepierna_der = [cadera_destino_x, cadera_destino_y];
+        ctx.beginPath();
         ctx.moveTo(cadera_origen_x, cadera_origen_y);
         ctx.lineTo(cadera_destino_x, cadera_destino_y);
         ctx.stroke();
@@ -289,78 +294,62 @@ function draw() {
       Proceso_pintar_antepierna_izq: {
         const antepierna_izq_origen_x = punto_de_la_antepierna_izq[0];
         const antepierna_izq_origen_y = punto_de_la_antepierna_izq[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let antepierna_izq_destino_x = punto_de_la_antepierna_izq[0];
         let antepierna_izq_destino_y = punto_de_la_antepierna_izq[1] + this.largo_de_antepierna;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_rodilla_izq = [antepierna_izq_destino_x, antepierna_izq_destino_y];
         punto_de_la_rodilla_izq = [
           Math.sin(utils.toRadians(this.apertura_de_la_pierna_izq)) * this.largo_de_antepierna + antepierna_izq_origen_x,
           -Math.cos(utils.toRadians(this.apertura_de_la_pierna_izq)) * this.largo_de_antepierna + antepierna_izq_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(antepierna_izq_origen_x, antepierna_izq_origen_y);
         ctx.lineTo(punto_de_la_rodilla_izq[0], punto_de_la_rodilla_izq[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_antepierna_der: {
         const antepierna_der_origen_x = punto_de_la_antepierna_der[0];
         const antepierna_der_origen_y = punto_de_la_antepierna_der[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let antepierna_der_destino_x = punto_de_la_antepierna_der[0];
         let antepierna_der_destino_y = punto_de_la_antepierna_der[1] + this.largo_de_antepierna;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_rodilla_der = [antepierna_der_destino_x, antepierna_der_destino_y];
         punto_de_la_rodilla_der = [
           Math.sin(utils.toRadians(this.apertura_de_la_pierna_der)) * this.largo_de_antepierna + antepierna_der_origen_x,
           -Math.cos(utils.toRadians(this.apertura_de_la_pierna_der)) * this.largo_de_antepierna + antepierna_der_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(antepierna_der_origen_x, antepierna_der_origen_y);
         ctx.lineTo(punto_de_la_rodilla_der[0], punto_de_la_rodilla_der[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_pierna_izq: {
         const pierna_izq_origen_x = punto_de_la_rodilla_izq[0];
         const pierna_izq_origen_y = punto_de_la_rodilla_izq[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let pierna_izq_destino_x = punto_de_la_rodilla_izq[0];
         let pierna_izq_destino_y = punto_de_la_rodilla_izq[1] + this.largo_de_pierna;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_del_pie_izq = [pierna_izq_destino_x, pierna_izq_destino_y];
         punto_del_pie_izq = [
           Math.sin(utils.toRadians(this.apertura_de_la_rodilla_izq)) * this.largo_de_pierna + pierna_izq_origen_x,
           -Math.cos(utils.toRadians(this.apertura_de_la_rodilla_izq)) * this.largo_de_pierna + pierna_izq_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(pierna_izq_origen_x, pierna_izq_origen_y);
         ctx.lineTo(punto_del_pie_izq[0], punto_del_pie_izq[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
       Proceso_pintar_pierna_der: {
         const pierna_der_origen_x = punto_de_la_rodilla_der[0];
         const pierna_der_origen_y = punto_de_la_rodilla_der[1];
-        ///////////////////////////////////////////////////////
-        // Lo que sería pierna normal hacia abajo:
         let pierna_der_destino_x = punto_de_la_rodilla_der[0];
         let pierna_der_destino_y = punto_de_la_rodilla_der[1] + this.largo_de_pierna;
-        ///////////////////////////////////////////////////////
-        // Lo que sería aplicando ángulo de articulacion:
         punto_del_pie_der = [pierna_der_destino_x, pierna_der_destino_y];
         punto_del_pie_der = [
           Math.sin(utils.toRadians(this.apertura_de_la_rodilla_der)) * this.largo_de_pierna + pierna_der_origen_x,
           -Math.cos(utils.toRadians(this.apertura_de_la_rodilla_der)) * this.largo_de_pierna + pierna_der_origen_y
         ];
+        ctx.beginPath();
         ctx.moveTo(pierna_der_origen_x, pierna_der_origen_y);
         ctx.lineTo(punto_del_pie_der[0], punto_del_pie_der[1]);
         ctx.stroke();
-        ////////////////////////// OK!
       }
 
       Proceso_de_pintar_circulos_articulatorios: {
@@ -381,7 +370,7 @@ function draw() {
           punto_del_pie_der
         ];
         for (let i = 0; i < puntos.length; i++) {
-          console.log(`${i} de ${puntos.length}`);
+          // console.log(`${i} de ${puntos.length}`);
           const punto = puntos[i];
           ctx.beginPath();
           ctx.arc(punto[0], punto[1], 4, 0, Math.PI * 2, true);
@@ -399,35 +388,36 @@ function draw() {
     constructor(ctx) {
       this.contexto = ctx;
       this.elementos = [];
-      this.refrescarse = () => {
+      this.pintarse = () => {
         for(let i=0; i<this.elementos.length; i++) {
           const elemento = this.elementos[i];
           elemento.pintarse(this.contexto);
         }
       };
-      this.refrescarse.cada = (secs) => {
-        clearTimeout(this.refrescarse.cada.intervalo_id);
-        this.refrescarse.cada.intervalo_id = setTimeout(() => {
-          this.refrescarse();
-          this.refrescarse.cada(secs);
+      this.pintarse.cada = (secs) => {
+        clearTimeout(this.pintarse.timeout_id);
+        this.pintarse.timeout_id = setTimeout(() => {
+          this.pintarse();
+          this.pintarse.cada(secs);
         }, secs);
       };
     }
     incluir(elemento) {
+      elemento.pantalla = this;
       this.elementos.push(elemento);
     }
   }
-
   const pantalla = new Pantalla(ctx);
   const fondo = new Fondo();
   const persona = new Persona();
   pantalla.incluir(fondo);
   pantalla.incluir(persona);
-  pantalla.refrescarse.cada(1000);
-  window.persona = persona;
+  return { pantalla, fondo, persona };
 };
 
-window.addEventListener("load", draw);
+window.play = play;
+
+window.addEventListener("load", play);
 
 
 
