@@ -232,8 +232,8 @@ function draw() {
         // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_rodilla_izq = [antepierna_izq_destino_x, antepierna_izq_destino_y];
         punto_de_la_rodilla_izq = [
-          Math.sin(utils.toRadians(130)) * this.largo_de_antepierna + antepierna_izq_origen_x,
-          -Math.cos(utils.toRadians(130)) * this.largo_de_antepierna + antepierna_izq_origen_y
+          Math.sin(utils.toRadians(this.apertura_de_la_pierna_izq)) * this.largo_de_antepierna + antepierna_izq_origen_x,
+          -Math.cos(utils.toRadians(this.apertura_de_la_pierna_izq)) * this.largo_de_antepierna + antepierna_izq_origen_y
         ];
         ctx.moveTo(antepierna_izq_origen_x, antepierna_izq_origen_y);
         ctx.lineTo(punto_de_la_rodilla_izq[0], punto_de_la_rodilla_izq[1]);
@@ -251,8 +251,8 @@ function draw() {
         // Lo que sería aplicando ángulo de articulacion:
         punto_de_la_rodilla_der = [antepierna_der_destino_x, antepierna_der_destino_y];
         punto_de_la_rodilla_der = [
-          Math.sin(utils.toRadians(130)) * this.largo_de_antepierna + antepierna_der_origen_x,
-          -Math.cos(utils.toRadians(130)) * this.largo_de_antepierna + antepierna_der_origen_y
+          Math.sin(utils.toRadians(this.apertura_de_la_pierna_der)) * this.largo_de_antepierna + antepierna_der_origen_x,
+          -Math.cos(utils.toRadians(this.apertura_de_la_pierna_der)) * this.largo_de_antepierna + antepierna_der_origen_y
         ];
         ctx.moveTo(antepierna_der_origen_x, antepierna_der_origen_y);
         ctx.lineTo(punto_de_la_rodilla_der[0], punto_de_la_rodilla_der[1]);
@@ -270,8 +270,8 @@ function draw() {
         // Lo que sería aplicando ángulo de articulacion:
         punto_del_pie_izq = [pierna_izq_destino_x, pierna_izq_destino_y];
         punto_del_pie_izq = [
-          Math.sin(utils.toRadians(-130)) * this.largo_de_pierna + pierna_izq_origen_x,
-          -Math.cos(utils.toRadians(-130)) * this.largo_de_pierna + pierna_izq_origen_y
+          Math.sin(utils.toRadians(this.apertura_de_la_rodilla_izq)) * this.largo_de_pierna + pierna_izq_origen_x,
+          -Math.cos(utils.toRadians(this.apertura_de_la_rodilla_izq)) * this.largo_de_pierna + pierna_izq_origen_y
         ];
         ctx.moveTo(pierna_izq_origen_x, pierna_izq_origen_y);
         ctx.lineTo(punto_del_pie_izq[0], punto_del_pie_izq[1]);
@@ -289,8 +289,8 @@ function draw() {
         // Lo que sería aplicando ángulo de articulacion:
         punto_del_pie_der = [pierna_der_destino_x, pierna_der_destino_y];
         punto_del_pie_der = [
-          Math.sin(utils.toRadians(-130)) * this.largo_de_pierna + pierna_der_origen_x,
-          -Math.cos(utils.toRadians(-130)) * this.largo_de_pierna + pierna_der_origen_y
+          Math.sin(utils.toRadians(this.apertura_de_la_rodilla_der)) * this.largo_de_pierna + pierna_der_origen_x,
+          -Math.cos(utils.toRadians(this.apertura_de_la_rodilla_der)) * this.largo_de_pierna + pierna_der_origen_y
         ];
         ctx.moveTo(pierna_der_origen_x, pierna_der_origen_y);
         ctx.lineTo(punto_del_pie_der[0], punto_del_pie_der[1]);
