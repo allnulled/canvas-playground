@@ -1,4 +1,4 @@
-[ ] aplicar grados como variables
+[x] aplicar grados como variables
 [ ] introducir tiempo
 [ ] crear métodos para manipular variables
   [ ] que permitan grados

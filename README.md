@@ -2,6 +2,10 @@
 
 Usar el Canvas API de HTMl5 rápidamente.
 
+## Versión online
+
+[https://allnulled.github.io/canvas-playground](https://allnulled.github.io/canvas-playground)
+
 ## Instalación
 
 En un directorio nuevo, clona el proyecto:
