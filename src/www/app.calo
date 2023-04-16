@@ -16,9 +16,9 @@ Ejecutable como documento HTML5
       }
       .w_100 { width: 100%; }
     </style>
-    <script src="/js/calo.js"></script>
-    <script src="/js/castelog-parser.js"></script>
-    <script src="/js/play.js"></script>
+    <script src="js/calo.js"></script>
+    <script src="js/castelog-parser.js"></script>
+    <script src="js/play.js"></script>
 </head>
 <body>
     <div class="canvas_box">
