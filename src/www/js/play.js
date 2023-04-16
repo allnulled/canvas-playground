@@ -1,15 +1,48 @@
 function draw() {
+  const SETTINGS = {
+    width: 500,
+    height: 500,
+    color_de_palos: "#000",
+    color_de_articulaciones: "#CCC",
+    color_de_fondo: "#66b7d8",
+    color_de_cesped: "#00ba41"
+  };
   const canvas = document.getElementById('canvas_for_demo');
-  canvas.width = 500;
-  canvas.height = 500;
+  canvas.width = SETTINGS.width;
+  canvas.height = SETTINGS.height;
+  canvas.style.border = "1px solid #333";
+  canvas.style.boxShadow = "0 0 4px black";
+  canvas.style.borderRadius = "2pt";
   if (!canvas.getContext) {
     throw new Error("Canvas element has no context");
   }
   const ctx = canvas.getContext('2d');
+  const Fondo = class {
+    constructor() {
+    }
+    pintarse(ctx) {
+      Pintar_fondo: {
+        ctx.beginPath();
+        ctx.fillStyle = SETTINGS.color_de_fondo;
+        ctx.fillRect(0, 0, SETTINGS.width, SETTINGS.height);
+      }
+      Pintar_cesped: {
+        const altura_de_cesped = 500 - 40;
+        ctx.beginPath();
+        ctx.moveTo(0, altura_de_cesped-1);
+        ctx.lineTo(SETTINGS.width, altura_de_cesped-1);
+        ctx.strokeStyle = SETTINGS.color_de_palos;
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.fillStyle = SETTINGS.color_de_cesped;
+        ctx.fillRect(0, altura_de_cesped, SETTINGS.width, SETTINGS.height);
+      }
+    }
+  };
   const Persona = class {
     constructor() {
       this.x = 80;
-      this.y = 80;
+      this.y = SETTINGS.height - (250);
       this.escala = 25;
       this.cabeza_con_cuello = 0;
       this.cuello_con_columna = 0;
@@ -22,6 +55,21 @@ function draw() {
       this.cadera_derecha = 0;
       this.rodilla_izquierda = 0;
       this.rodilla_derecha = 0;
+      this.apertura_de_cuello_bajo = 0;
+      this.apertura_del_cuello_bajo = 0;
+      this.apertura_del_hombro_izq = 0;
+      this.apertura_del_hombro_der = 0;
+      this.apertura_del_codo_der = 0;
+      this.apertura_del_codo_izq = 0;
+      this.apertura_de_la_mano_izq = 0;
+      this.apertura_de_la_mano_der = 0;
+      this.apertura_del_coxis = 0;
+      this.apertura_de_la_antepierna_izq = 0;
+      this.apertura_de_la_antepierna_der = 0;
+      this.apertura_de_la_rodilla_izq = 0;
+      this.apertura_de_la_rodilla_der = 0;
+      this.apertura_del_pie_izq = 0;
+      this.apertura_del_pie_der = 0;
     }
     pintarse(ctx) {
       let punto_del_cuello_bajo = undefined;
@@ -42,6 +90,11 @@ function draw() {
       Proceso_pintar_cabeza: {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.escala, 0, Math.PI * 2, true);
+        ctx.fillStyle = SETTINGS.color_de_articulaciones;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.escala, 0, Math.PI * 2, true);
+        ctx.strokeStyle = SETTINGS.color_de_palos;
         ctx.stroke();
       }
       Proceso_pintar_cuello: {
@@ -189,7 +242,7 @@ function draw() {
           const punto = puntos[i];
           ctx.beginPath();
           ctx.arc(punto[0], punto[1], 4, 0, Math.PI * 2, true);
-          ctx.fillStyle = "#CCC";
+          ctx.fillStyle = SETTINGS.color_de_articulaciones;
           ctx.fill();
           ctx.beginPath();
           ctx.arc(punto[0], punto[1], 4, 0, Math.PI * 2, true);
@@ -199,7 +252,9 @@ function draw() {
       }
     }
   }
-  const persona = new Persona(ctx);
+  const fondo = new Fondo();
+  const persona = new Persona();
+  fondo.pintarse(ctx);
   persona.pintarse(ctx);
 };
 
