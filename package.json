@@ -1,16 +1,13 @@
 {
-  "name": "free-canvas-playground",
+  "name": "homactografo",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Homactógrafo con línea de fuga y eje z con movimiento al rojo-negro.",
+  "main": "src/www/js/homactografo.js",
   "scripts": {
-    "test": "./node_modules/.bin/http-server -c-1 src/www",
-    "test:nodep": "npx http-server -c-1 src/www"
+    "test": "npx http-server -c-1 src/www"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "http-server": "^14.1.1"
-  }
+  "keywords": ["homactografo", "paloman"],
+  "author": "allnulled",
+  "license": "WTFPL",
+  "devDependencies": {}
 }
