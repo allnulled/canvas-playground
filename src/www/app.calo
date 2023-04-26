@@ -1,9 +1,9 @@
 Ejecutable como documento HTML5
     con autor allnulled
-    con nombre app-por-defecto
-    con versión 0.0.1
+    con nombre index
+    con versión 1
 <head>
-    <title>Homactógrafo Z</title>
+    <title>Free canvas playground</title>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
@@ -20,19 +20,19 @@ Ejecutable como documento HTML5
     </style>
     <script src="js/calo.js"></script>
     <script src="js/castelog-parser.js"></script>
-    <script src="js/homactografo.js"></script>
+    <script src="js/free-canvas-playground.js"></script>
 </head>
 <body>
-    <div class="canvas_box">
-      <canvas id="canvas_for_demo"></canvas>
-    </div>
     <div id="app"></div>
 </body>.
 
 importo api nativa.
 
-creo ConstructorDeHomactogramasDeCastelog como un componente vue2 con nombre "ConstructorDeHomactogramasDeCastelog" con plantilla {
-  <div class="ConstructorDeHomactogramasDeCastelog Component win7">
+creo FreeCanvasPlayground como un componente vue2 con nombre "FreeCanvasPlayground" con plantilla {
+  <div class="FreeCanvasPlayground Component win7">
+    <div class="canvas_box">
+      <canvas ref="canvas"></canvas>
+    </div>
     <div class="editor_box">
       <div v-if="exito_de_compilacion">
         <span>✔ La compilación fue exitosa.</span>
@@ -67,12 +67,10 @@ creo ConstructorDeHomactogramasDeCastelog como un componente vue2 con nombre "Co
       retorno {
         codigo_actual_js: "",
         codigo_actual: "".trim(),
-        persona: undefined,
-        fondo: undefined,
-        pantalla: undefined,
         exito_de_ejecucion: undefined,
         exito_de_compilacion: undefined,
-        error: undefined
+        error: undefined,
+        utils: this.$window.free_canvas_playground
       }.
     }.
     propiedad methods como {
@@ -100,9 +98,22 @@ creo ConstructorDeHomactogramasDeCastelog como un componente vue2 con nombre "Co
       },
       compilar: una función con (mostrar_exito) donde {
         creo codigo_calo como this.codigo_actual.
-        imprimo codigo_calo.
-        creo codigo_js como Castelog_parser.parse(codigo_calo).
-        creo codigo_temporal como `(async function(persona, pantalla, fondo, componente, juego, utils) {\n  try {\n    console.log(this);\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`.
+        creo codigo_calo_final como un código en texto donde {
+          desacoplo constantes {
+            configuraciones,
+            utilidades,
+            contexto,
+            Pantalla,
+            Fondo,
+            Persona,
+            pantalla,
+            fondo,
+            persona
+          } a partir de this.playground.
+        } + codigo_calo.
+        imprimo codigo_calo_final.
+        creo codigo_js como Castelog_parser.parse(codigo_calo_final).
+        creo codigo_temporal como `(async function() {\n  try {\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`.
         creo codigo_js_final como codigo_temporal.
         imprimo codigo_js_final.
         asigno this.codigo_actual_js como codigo_js_final.
@@ -116,21 +127,14 @@ creo ConstructorDeHomactogramasDeCastelog como un componente vue2 con nombre "Co
         imprimo codigo_js.
         creo funcion_js como this.$window.eval(codigo_js).
         imprimo funcion_js.
-        creo resultado como asíncronamente funcion_js.call(this, this.persona, this.pantalla, this.pantalla.fondo, this, this.juego, this.juego.utils).
-        hago this.juego.utils.setLastScript(this.codigo_actual).
+        creo resultado como asíncronamente funcion_js.call(this, this.playground).
         si resultado no es tipo indefinido {
           hago this.mostrar_exito_de_ejecucion(resultado).
         }.
       } en errores hago this.mostrar_error(error)
     }.
-    método mounted donde {
-      imprimo "Montada página de inicio.".
-      asigno this.juego como this.$window.homactografo(this.$refs.salida_del_canvas).
-      asigno this.persona como this.juego.persona.
-      asigno this.fondo como this.juego.fondo.
-      asigno this.pantalla como this.juego.pantalla.
-      asigno this.codigo_actual como this.juego.utils.getLastScript().
-      hago setTimeout(una lambda donde hago this.pantalla.pintarse(), 1000).
+    método asíncrono mounted donde {
+      asigno this.playground como asíncronamente this.$window.free_canvas_playground(this.$refs.canvas).
     }.
   }.
 }.
@@ -138,7 +142,7 @@ creo ConstructorDeHomactogramasDeCastelog como un componente vue2 con nombre "Co
 creo App como una aplicación vue2 con nombre "App" con rutas [{
     propiedad path como "/".
     propiedad name como "Home".
-    propiedad component como ConstructorDeHomactogramasDeCastelog.
+    propiedad component como FreeCanvasPlayground.
     propiedad props como {}.
 }] con traducciones {
     propiedad es como {}.

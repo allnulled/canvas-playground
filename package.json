@@ -1,12 +1,13 @@
 {
-  "name": "homactografo",
+  "name": "free-canvas-playground",
   "version": "1.0.0",
-  "description": "Homactógrafo con línea de fuga y eje z con movimiento al rojo-negro.",
+  "description": "Usa el Canvas de HTML5 rápidamente con Castelog.",
   "main": "src/www/js/homactografo.js",
   "scripts": {
-    "test": "npx http-server -c-1 src/www"
+    "build": "cp -R src/www/* --target-directory=docs && mv docs/app.default.html docs/index.html",
+    "test": "npx http-server -c-1 src/www -o ejemlo.html"
   },
-  "keywords": ["homactografo", "paloman"],
+  "keywords": ["canvas", "playground"],
   "author": "allnulled",
   "license": "WTFPL",
   "devDependencies": {}

@@ -1,5 +1,5 @@
 
-// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"app-por-defecto","version":"0.0.1","contenido":{"head":"<head>\n    <title>Homactógrafo Z</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      .canvas_box {\n        background-color: #222;\n        box-shadow: 0 0 4px black;\n        text-align: center;\n        padding-top: 20px;\n        padding-bottom: 20px;\n      }\n      .w_100 {\n        width: 100%;\n      }\n    </style>\n    <script src=\"js/calo.js\"></script>\n    <script src=\"js/castelog-parser.js\"></script>\n    <script src=\"js/homactografo.js\"></script>\n</head>","body":"<body>\n    <div class=\"canvas_box\">\n      <canvas id=\"canvas_for_demo\"></canvas>\n    </div>\n    <div id=\"app\"></div>\n</body>"}}
+// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"index","version":"1","contenido":{"head":"<head>\n    <title>Free canvas playground</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      .canvas_box {\n        background-color: #222;\n        box-shadow: 0 0 4px black;\n        text-align: center;\n        padding-top: 20px;\n        padding-bottom: 20px;\n      }\n      .w_100 {\n        width: 100%;\n      }\n    </style>\n    <script src=\"js/calo.js\"></script>\n    <script src=\"js/castelog-parser.js\"></script>\n    <script src=\"js/free-canvas-playground.js\"></script>\n</head>","body":"<body>\n    <div id=\"app\"></div>\n</body>"}}
 
 
 
@@ -59842,8 +59842,11 @@ Castelog.variables.operador.exclamacion.ejs.ui.dom.elemento = function(elemento 
 ////////////////////////////////////////// Aquí termina el script de Castelog //
 ////////////////////////////////////////////////////////////////////////////////
 
-const ConstructorDeHomactogramasDeCastelog = Castelog.metodos.un_componente_vue2("ConstructorDeHomactogramasDeCastelog",
-  "<div class=\"ConstructorDeHomactogramasDeCastelog Component win7\">"
+const FreeCanvasPlayground = Castelog.metodos.un_componente_vue2("FreeCanvasPlayground",
+  "<div class=\"FreeCanvasPlayground Component win7\">"
+ + "    <div class=\"canvas_box\">"
+ + "      <canvas ref=\"canvas\"></canvas>"
+ + "    </div>"
  + "    <div class=\"editor_box\">"
  + "      <div v-if=\"exito_de_compilacion\">"
  + "        <span>✔ La compilación fue exitosa.</span>"
@@ -59875,12 +59878,10 @@ const ConstructorDeHomactogramasDeCastelog = Castelog.metodos.un_componente_vue2
   function(component) {return { data() {try {
 return { codigo_actual_js:"",
 codigo_actual:"".trim(  ),
-persona:undefined,
-fondo:undefined,
-pantalla:undefined,
 exito_de_ejecucion:undefined,
 exito_de_compilacion:undefined,
-error:undefined
+error:undefined,
+utils:this.$window.free_canvas_playground
 };
 } catch(error) {
 console.log(error);
@@ -59953,9 +59954,10 @@ throw error;
 },
 compilar:function( mostrar_exito ) {try {
 const codigo_calo = this.codigo_actual;
-console.log(codigo_calo);
-const codigo_js = Castelog_parser.parse( codigo_calo );
-const codigo_temporal = `(async function(persona, pantalla, fondo, componente, juego, utils) {\n  try {\n    console.log(this);\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`;
+const codigo_calo_final = "\n          desacoplo constantes {\n            configuraciones,\n            utilidades,\n            contexto,\n            Pantalla,\n            Fondo,\n            Persona,\n            pantalla,\n            fondo,\n            persona\n          } a partir de this.playground.\n        " + codigo_calo;
+console.log(codigo_calo_final);
+const codigo_js = Castelog_parser.parse( codigo_calo_final );
+const codigo_temporal = `(async function() {\n  try {\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`;
 const codigo_js_final = codigo_temporal;
 console.log(codigo_js_final);
 this.codigo_actual_js = codigo_js_final;
@@ -59972,13 +59974,7 @@ console.log(codigo_js);
 const funcion_js = this.$window.eval( codigo_js );
 console.log(funcion_js);
 const resultado = (await funcion_js.call( this,
-this.persona,
-this.pantalla,
-this.pantalla.fondo,
-this,
-this.juego,
-this.juego.utils ));
-this.juego.utils.setLastScript( this.codigo_actual );
+this.playground ));
 if((!(typeof resultado === 'undefined'))) {
 this.mostrar_exito_de_ejecucion( resultado );
 }
@@ -59986,22 +59982,8 @@ this.mostrar_exito_de_ejecucion( resultado );
 this.mostrar_error( error );}
 }
 },
-mounted() {try {
-console.log("Montada página de inicio.");
-this.juego = this.$window.homactografo( this.$refs.salida_del_canvas );
-this.persona = this.juego.persona;
-this.fondo = this.juego.fondo;
-this.pantalla = this.juego.pantalla;
-this.codigo_actual = this.juego.utils.getLastScript(  );
-setTimeout( () => {try {
-this.pantalla.pintarse(  );
-} catch(error) {
-console.log(error);
-throw error;
-}
-
-},
-1000 );
+async mounted() {try {
+this.playground = (await this.$window.free_canvas_playground( this.$refs.canvas ));
 } catch(error) {
 console.log(error);
 throw error;
@@ -60037,7 +60019,7 @@ mounted() {
   {},
   [ { path:"/",
 name:"Home",
-component:ConstructorDeHomactogramasDeCastelog,
+component:FreeCanvasPlayground,
 props:{ 
 }
 } ],
