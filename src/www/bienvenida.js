@@ -59845,7 +59845,7 @@ Castelog.variables.operador.exclamacion.ejs.ui.dom.elemento = function(elemento 
 const PaginaDeInicio = Castelog.metodos.un_componente_vue2("PaginaDeInicio",
   "<div class=\"PaginaDeInicio Component\">"
  + "    <h5>Free Canvas Playground</h5>"
- + "    <p>Con la <pre>free-canvas-playground</pre> puedes jugar con la <a href=\"#\">HTML5 Canvas API</a> gratis usando <a href=\"#\">Castelog</a>.</p>"
+ + "    <p>Con la <code>free-canvas-playground</code> puedes jugar con la <a href=\"#\">HTML5 Canvas API</a> gratis usando <a href=\"#\">Castelog</a>.</p>"
  + "    <p>Dispones de 2 interfaces diferentes:</p>"
  + "    <ul>"
  + "        <li>La <a href=\"app.2d.last.html\">Free Canvas Playground API de 2 Dimensiones</a>.</li>"

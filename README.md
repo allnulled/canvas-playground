@@ -4,15 +4,22 @@ Usar el HTML5 Canvas API rápidamente.
 
 ## Versión online
 
-[https://allnulled.github.io/canvas-playground](https://allnulled.github.io/canvas-playground)
+- Para usar 2 dimensiones tienes la [aplicación de la Free Canvas Playground 2D API](https://allnulled.github.io/canvas-playground/app.2d.last.html)
+- Para usar 3 dimensiones tienes la [aplicación de la Free Canvas Playground 3D API](https://allnulled.github.io/canvas-playground/app.3d.last.html)
+
+----
 
 ## API
 
-El `free-canvas-playground` proporciona una API básica para interactuar con el HTML5 Canvas API..
+El `free-canvas-playground` proporciona dos APIs básica para interactuar con el HTML5 Canvas API, completamente opcionales porque igual puedes usar el HTML5 Canvas API directamente. Pero ahí están:
+ - La [Free Canvas Playground API de 2D](#referencia-de-la-api-de-2d), y
+ - La [Free Canvas Playground API de 3D](#referencia-de-la-api-de-3d).
 
-### Referencia
+----
 
-Los ficheros de la API están en `src/www/js/free-canvas-playground/2D*`, y son:
+### Referencia de la API de 2D
+
+Los ficheros de la API están en `src/www/js/free-canvas-playground/2d/*`, y son:
 
   - `configuraciones.js`: parámetros globales de la aplicación.
   - `utilidades.js`: métodos globales útiles de la aplicación.
@@ -57,6 +64,8 @@ desacoplo constantes {
 
 ----
 
+### Ejemplos de la API de 2D
+
 **Ejemplo de 4 personas:**
 
 Este script crea a 3 personas a parte de la principal, en la pantalla:
@@ -73,3 +82,48 @@ hago pantalla.pintarse().
 
 ----
 
+### Referencia de la API de 3D
+
+La API de 3D incluye la librería `three.js` y una inicialización básica de un `Universo` propio de la API.
+
+Los ficheros de la API están en `src/www/js/free-canvas-playground/3d/*`, y son:
+
+ - `Camara.js`: 
+ - `Escena.js`: 
+ - `Geometria.de.cuboide.js`: 
+ - `Geometria.js`: 
+ - `Malla.js`: 
+ - `Material.js`: 
+ - `Reproductor.js`: 
+ - `Universo.js`: 
+
+----
+
+Las variables disponibles en el script son:
+
+  - `this`: el componente vue2 que renderiza el canvas.
+  - `this.playground`: el objeto con la API del `free-canvas-playground`. Contiene:
+    - `configuraciones` (variables globales)
+    - `utilidades` (métodos globales)
+    - `contexto` (el nexo con la Canvas API)
+    - `Camara.de.perspectiva`: una extensión de la clase `THREE.PerspectiveCamera`.
+    - `Escena.estandar`: una extensión de la clase `THREE.Scene`.
+    - `Malla.estandar`: una extensión de la clase `THREE.Mesh`.
+    - `Material.de.malla.basico`: una extensión de la clase `THREE.MeshBasicMaterial`.
+    - `Reproductor.webGL`: una extensión de la clase `THREE.WebGLRenderer`.
+    - `Universo`: clase propia de la API de 3D y no de `THREE`. Esta clase controla y contiene a las demás.
+    - `universo` (la instancia)
+
+----
+
+Esta sentencia se incluye automáticamente a los script inyectados con castelog, por lo que ya dispones de toda la API accesible automáticamente:
+
+```calo
+
+```
+
+----
+
+### Ejemplos de la API de 3D
+
+Próximamente.
