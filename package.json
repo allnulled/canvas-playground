@@ -4,7 +4,7 @@
   "description": "Usa el Canvas de HTML5 rápidamente con Castelog.",
   "main": "src/www/js/homactografo.js",
   "scripts": {
-    "build": "cp -R src/www/* --target-directory=docs && mv docs/app.last.html docs/app.html",
+    "build": "cp -R src/www/* --target-directory=docs && mv docs/app.last.html docs/index.html",
     "test": "npx http-server -c-1 src/www -o ejemlo.html"
   },
   "keywords": ["canvas", "playground"],
