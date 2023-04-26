@@ -1,12 +1,27 @@
 <!DOCTYPE html><html><head>
-    <title>Free Canvas Playground</title>
+    <title>Free canvas playground</title>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      
+      .canvas_box {
+        background-color: #222;
+        box-shadow: 0 0 4px black;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      .w_100 {
+        width: 100%;
+      }
     </style>
-</head><body><div id="app"></div><script>
-// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"bienvenida","version":"1","contenido":{"head":"<head>\n    <title>Free Canvas Playground</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      \n    </style>\n</head>","body":"<body><div id=\"app\"></div></body>"}}
+    <script src="js/calo.js"></script>
+    <script src="js/castelog-parser.js"></script>
+    <script src="js/three.js"></script>
+    <script src="js/free-canvas-playground.js"></script>
+</head><body>
+    <div id="app"></div>
+<script>
+// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"app.2d","version":"last","contenido":{"head":"<head>\n    <title>Free canvas playground</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      .canvas_box {\n        background-color: #222;\n        box-shadow: 0 0 4px black;\n        text-align: center;\n        padding-top: 20px;\n        padding-bottom: 20px;\n      }\n      .w_100 {\n        width: 100%;\n      }\n    </style>\n    &gt;script src=\"js/calo.js\">&gt;/script>\n    &gt;script src=\"js/castelog-parser.js\">&gt;/script>\n    &gt;script src=\"js/three.js\">&gt;/script>\n    &gt;script src=\"js/free-canvas-playground.js\">&gt;/script>\n</head>","body":"<body>\n    <div id=\"app\"></div>\n</body>"}}
 
 
 
@@ -59849,17 +59864,155 @@ Castelog.variables.operador.exclamacion.ejs.ui.dom.elemento = function(elemento 
 ////////////////////////////////////////// Aquí termina el script de Castelog //
 ////////////////////////////////////////////////////////////////////////////////
 
-const PaginaDeInicio = Castelog.metodos.un_componente_vue2("PaginaDeInicio",
-  "<div class=\"PaginaDeInicio Component\">"
- + "    <h5>Free Canvas Playground</h5>"
- + "    <p>Con la <pre>free-canvas-playground</pre> puedes jugar con la <a href=\"#\">HTML5 Canvas API</a> gratis usando <a href=\"#\">Castelog</a>.</p>"
- + "    <p>Dispones de 2 interfaces diferentes:</p>"
- + "    <ul>"
- + "        <li>La <a href=\"app.2d.last.html\">Free Canvas Playground API de 2 Dimensiones</a>.</li>"
- + "        <li>La <a href=\"app.3d.last.html\">Free Canvas Playground API de 3 Dimensiones</a>.</li>"
- + "    </ul>"
+const FreeCanvasPlayground = Castelog.metodos.un_componente_vue2("FreeCanvasPlayground",
+  "<div class=\"FreeCanvasPlayground Component win7\">"
+ + "    <div class=\"canvas_box\">"
+ + "      <canvas ref=\"canvas\"></canvas>"
+ + "    </div>"
+ + "    <div class=\"editor_box\">"
+ + "      <div v-if=\"exito_de_compilacion\">"
+ + "        <span>✔ La compilación fue exitosa.</span>"
+ + "        <details>"
+ + "          <summary>Mostrar código</summary>"
+ + "          <div>"
+ + "            <textarea class=\"w_100\" style=\"min-height: 300px;\" disabled=\"true\" :value=\"codigo_actual_js\"></textarea>"
+ + "          </div>"
+ + "        </details>"
+ + "      </div>"
+ + "      <div v-if=\"exito_de_ejecucion\">"
+ + "        <span>✔ La ejecución fue exitosa.</span>"
+ + "        <pre>{{ JSON.stringify(exito_de_ejecucion, null, 2) }}</pre>"
+ + "      </div>"
+ + "      <div v-if=\"error\">"
+ + "        <span>✘ Error: {{ error.message }}</span>"
+ + "      </div>"
+ + "      <div class=\"salida_del_canvas\" ref=\"salida_del_canvas\">"
+ + "      </div>"
+ + "      <div style=\"position: relative;\">"
+ + "        <textarea style=\"font-family: monospace; font-size: 9px; resize: vertical; min-height: 900px;\" class=\"w_100\" v-model=\"codigo_actual\"></textarea>"
+ + "        <div style=\"position: absolute; top: 5px; right: 5px; left: auto; bottom: auto;\">"
+ + "          <button v-on:click=\"() => compilar(true)\">Compilar</button>"
+ + "          <button v-on:click=\"() => aplicar()\">Aplicar</button>"
+ + "        </div>"
+ + "      </div>"
+ + "    </div>"
  + "  </div>",
-  null,
+  function(component) {return { data() {try {
+return { codigo_actual_js:"",
+codigo_actual:"".trim(  ),
+exito_de_ejecucion:undefined,
+exito_de_compilacion:undefined,
+error:undefined,
+utils:this.$window.free_canvas_playground
+};
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+methods:{ mostrar_exito_de_ejecucion:function( resultado ) {try {
+this.error = undefined;
+this.exito_de_compilacion = undefined;
+this.exito_de_ejecucion = resultado;
+this.exito_de_ejecucion_timeout_id = setTimeout( () => {try {
+this.exito_de_ejecucion = undefined;
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+1000 * 10 );
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+mostrar_exito_de_compilacion:function(  ) {try {
+this.error = undefined;
+this.exito_de_ejecucion = undefined;
+this.exito_de_compilacion = true;
+this.exito_timeout_id = setTimeout( () => {try {
+this.exito_de_compilacion = undefined;
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+1000 * 10 );
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+mostrar_error:function( error ) {try {
+this.exito_de_ejecucion = undefined;
+this.exito_de_compilacion = undefined;
+this.error = error;
+this.error_timeout_id = setTimeout( () => {try {
+this.error = undefined;
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+1000 * 10 );
+this.$forceUpdate( true );
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+},
+compilar:function( mostrar_exito ) {try {
+const codigo_calo = this.codigo_actual;
+const codigo_calo_final = "\n          desacoplo constantes {\n            configuraciones,\n            utilidades,\n            contexto,\n            Pantalla,\n            Fondo,\n            Persona,\n            pantalla,\n            fondo,\n            persona\n          } a partir de this.playground.\n        " + codigo_calo;
+console.log(codigo_calo_final);
+const codigo_js = Castelog_parser.parse( codigo_calo_final );
+const codigo_temporal = `(async function() {\n  try {\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`;
+const codigo_js_final = codigo_temporal;
+console.log(codigo_js_final);
+this.codigo_actual_js = codigo_js_final;
+if(mostrar_exito) {
+this.mostrar_exito_de_compilacion(  );
+}
+return codigo_js_final;
+} catch(error) {
+this.mostrar_error( error );}
+},
+aplicar:async function() {try {
+const codigo_js = this.compilar(  );
+console.log(codigo_js);
+const funcion_js = this.$window.eval( codigo_js );
+console.log(funcion_js);
+const resultado = (await funcion_js.call( this,
+this.playground ));
+if((!(typeof resultado === 'undefined'))) {
+this.mostrar_exito_de_ejecucion( resultado );
+}
+} catch(error) {
+this.mostrar_error( error );}
+}
+},
+async mounted() {try {
+this.playground = (await this.$window.free_canvas_playground( this.$refs.canvas ));
+} catch(error) {
+console.log(error);
+throw error;
+}
+
+}
+};},
   null);
 const App = Castelog.metodos.una_aplicacion_vue2(
   "App",
@@ -59888,7 +60041,7 @@ mounted() {
   {},
   [ { path:"/",
 name:"Home",
-component:PaginaDeInicio,
+component:FreeCanvasPlayground,
 props:{ 
 }
 } ],

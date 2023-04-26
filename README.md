@@ -12,7 +12,7 @@ El `free-canvas-playground` proporciona una API básica para interactuar con el 
 
 ### Referencia
 
-Los ficheros de la API están en `src/www/js/free-canvas-playground/*`, y son:
+Los ficheros de la API están en `src/www/js/free-canvas-playground/2D*`, y son:
 
   - `configuraciones.js`: parámetros globales de la aplicación.
   - `utilidades.js`: métodos globales útiles de la aplicación.

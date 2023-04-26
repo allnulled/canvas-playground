@@ -21,12 +21,12 @@ window.free_canvas_playground = async function (canvas) {
             }
         };
         const framework = {};
-        await eval(await importar_script("js/free-canvas-playground/utilidades.js"));
-        await eval(await importar_script("js/free-canvas-playground/configuraciones.js"));
-        await eval(await importar_script("js/free-canvas-playground/contexto.js"));
-        await eval(await importar_script("js/free-canvas-playground/Fondo.js"));
-        await eval(await importar_script("js/free-canvas-playground/Persona.js"));
-        await eval(await importar_script("js/free-canvas-playground/Pantalla.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/utilidades.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/configuraciones.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/contexto.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/Fondo.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/Persona.js"));
+        await eval(await importar_script("js/free-canvas-playground/2d/Pantalla.js"));
         const { Pantalla, Fondo, Persona, contexto } = framework;
         framework.pantalla = new Pantalla(contexto);
         framework.fondo = new Fondo();

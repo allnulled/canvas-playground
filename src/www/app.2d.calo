@@ -1,6 +1,6 @@
 Ejecutable como documento HTML5
     con autor allnulled
-    con nombre app
+    con nombre app.2d
     con versión last
 <head>
     <title>Free canvas playground</title>
@@ -20,6 +20,7 @@ Ejecutable como documento HTML5
     </style>
     <script src="js/calo.js"></script>
     <script src="js/castelog-parser.js"></script>
+    <script src="js/three.js"></script>
     <script src="js/free-canvas-playground.js"></script>
 </head>
 <body>

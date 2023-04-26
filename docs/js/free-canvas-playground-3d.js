@@ -1,4 +1,4 @@
-window.free_canvas_playground = async function (canvas) {
+window.free_canvas_playground_3d = async function (contenedor) {
     try {
         const get_by_ajax = function (url) {
             return fetch(url).then(respònse => {
@@ -21,20 +21,17 @@ window.free_canvas_playground = async function (canvas) {
             }
         };
         const framework = {};
-        await eval(await importar_script("js/free-canvas-playground/2d/utilidades.js"));
-        await eval(await importar_script("js/free-canvas-playground/2d/configuraciones.js"));
-        await eval(await importar_script("js/free-canvas-playground/2d/contexto.js"));
-        await eval(await importar_script("js/free-canvas-playground/2d/Fondo.js"));
-        await eval(await importar_script("js/free-canvas-playground/2d/Persona.js"));
-        await eval(await importar_script("js/free-canvas-playground/2d/Pantalla.js"));
-        const { Pantalla, Fondo, Persona, contexto } = framework;
-        framework.pantalla = new Pantalla(contexto);
-        framework.fondo = new Fondo();
-        framework.persona = new Persona();
-        const { pantalla, fondo, persona } = framework;
-        pantalla.incluir(fondo);
-        pantalla.incluir(persona);
-        pantalla.pintarse();
+        const THREE = await eval(await importar_script("js/three.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Camara.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Escena.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Reproductor.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Geometria.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Geometria.de.cuboide.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Malla.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Material.js"));
+        await eval(await importar_script("js/free-canvas-playground/3d/Universo.js"));
+        const { Camara, Escena, Reproductor, Universo } = framework;
+        framework.universo = new Universo(contenedor);
         return framework;
     } catch (error) {
         console.log("Error al llamar a free_canvas_playground:", error);

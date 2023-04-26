@@ -1,5 +1,5 @@
 
-// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"app","version":"last","contenido":{"head":"<head>\n    <title>Free canvas playground</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      .canvas_box {\n        background-color: #222;\n        box-shadow: 0 0 4px black;\n        text-align: center;\n        padding-top: 20px;\n        padding-bottom: 20px;\n      }\n      .w_100 {\n        width: 100%;\n      }\n    </style>\n    <script src=\"js/calo.js\"></script>\n    <script src=\"js/castelog-parser.js\"></script>\n    <script src=\"js/free-canvas-playground.js\"></script>\n</head>","body":"<body>\n    <div id=\"app\"></div>\n</body>"}}
+// [castelog:html5izable] ACTIVADO con: {"autor":"allnulled","nombre":"app","version":"3d.last","contenido":{"head":"<head>\n    <title>Free canvas playground</title>\n    <meta charset=\"utf8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <style>\n      .canvas_box {\n        background-color: #222;\n        box-shadow: 0 0 4px black;\n        text-align: center;\n        padding-top: 20px;\n        padding-bottom: 20px;\n      }\n      .w_100 {\n        width: 100%;\n      }\n    </style>\n    <script src=\"js/calo.js\"></script>\n    <script src=\"js/castelog-parser.js\"></script>\n    <script src=\"js/free-canvas-playground-3d.js\"></script>\n</head>","body":"<body>\n    <div id=\"app\"></div>\n</body>"}}
 
 
 
@@ -59845,7 +59845,7 @@ Castelog.variables.operador.exclamacion.ejs.ui.dom.elemento = function(elemento 
 const FreeCanvasPlayground = Castelog.metodos.un_componente_vue2("FreeCanvasPlayground",
   "<div class=\"FreeCanvasPlayground Component win7\">"
  + "    <div class=\"canvas_box\">"
- + "      <canvas ref=\"canvas\"></canvas>"
+ + "      <div ref=\"canvas_container\"></div>"
  + "    </div>"
  + "    <div class=\"editor_box\">"
  + "      <div v-if=\"exito_de_compilacion\">"
@@ -59954,7 +59954,7 @@ throw error;
 },
 compilar:function( mostrar_exito ) {try {
 const codigo_calo = this.codigo_actual;
-const codigo_calo_final = "\n          desacoplo constantes {\n            configuraciones,\n            utilidades,\n            contexto,\n            Pantalla,\n            Fondo,\n            Persona,\n            pantalla,\n            fondo,\n            persona\n          } a partir de this.playground.\n        " + codigo_calo;
+const codigo_calo_final = "\n          desacoplo constantes {\n            Universo,\n            Escena,\n            Camara,\n            Reproductor,\n            Material,\n            Geometria,\n            Malla,\n            universo\n          } a partir de this.playground.\n          desacoplo constantes {\n            camara,\n            escena,\n            reproductor\n          } a partir de universo.\n        " + codigo_calo;
 console.log(codigo_calo_final);
 const codigo_js = Castelog_parser.parse( codigo_calo_final );
 const codigo_temporal = `(async function() {\n  try {\n\n${codigo_js}\n\n  } catch(error) {\n    console.log(error);\n    this.mostrar_error(error);\n  }\n})`;
@@ -59983,7 +59983,7 @@ this.mostrar_error( error );}
 }
 },
 async mounted() {try {
-this.playground = (await this.$window.free_canvas_playground( this.$refs.canvas ));
+this.playground = (await this.$window.free_canvas_playground_3d( this.$refs.canvas_container ));
 } catch(error) {
 console.log(error);
 throw error;
