@@ -1,7 +1,7 @@
 Ejecutable como documento HTML5
     con autor allnulled
-    con nombre index
-    con versión 1
+    con nombre app
+    con versión last
 <head>
     <title>Free canvas playground</title>
     <meta charset="utf8" />
